@@ -1,6 +1,18 @@
 local path_api = "/usr/apis/sha256"
 local path_pwd = "/etc/secure-nsh/passwd"
 
+local a = {...}
+
+if #a == 1 and a[1] == "install" then
+  local str = http.get("https://gist.githubusercontent.com/Bencor29/2b109a711de1f737554d6f1b13298a3d/raw/a807dbbe2d0910fa52566def3d69437eb12e2041/passwd").readLine()
+  if not fs.exists(path_pwd) then
+    fs.open(path_pwd, "w")
+  end
+  local f = fs.open(path_pwd, "w")
+  f.writeLine(str)
+  f.close
+end
+
 if not fs.exists(path_api) then
   error("This script needs bencor29/sha256 API")  
 end
@@ -10,8 +22,6 @@ shell.run(path_api)
 if not fs.exists(path_pwd) then
   local f = fs.open(path_pwd, "w")
 end
-
-local a = {...}
 
 local function loadUsers()
   local users = {}
