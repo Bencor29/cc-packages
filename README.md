@@ -43,7 +43,7 @@ Then reboot the computer by typing `reboot` and nsh is installed
 
 ### Default credentials
 
-The default user is `root` and is password is `root`
+The default user is `root` and his password is `root`
 
 
 
