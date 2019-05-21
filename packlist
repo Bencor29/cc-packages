@@ -3,7 +3,7 @@ name = sha256
 		url = https://raw.githubusercontent.com/Bencor29/cc-packages/master/sha256
 		filename = sha256
 	category = utility api
-  target = /usr/apis
+	target = /usr/apis
 	version = 1.0.0
 	size = 1
 end
