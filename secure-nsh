@@ -11,6 +11,7 @@ if #a == 1 and a[1] == "install" then
   local f = fs.open(path_pwd, "w")
   f.writeLine(str)
   f.close()
+  return
 end
 
 if not fs.exists(path_api) then
