@@ -1,0 +1,154 @@
+local path_api = "/usr/apis/sha256"
+local path_pwd = "/etc/secure-nsh/passwd"
+
+if not fs.exists(path_api) then
+  error("This script needs bencor29/sha256 API")  
+end
+
+shell.run(path_api)
+
+if not fs.exists(path_pwd) then
+  local f = fs.open(path_pwd, "w")
+end
+
+local a = {...}
+
+local function loadUsers()
+  local users = {}
+  local f = fs.open(path_pwd, "r")
+  local all = f.readAll()
+  for k, v in string.gmatch(all, "(%w+):(%w+)") do
+    users[k] = v
+  end
+  return users
+end
+
+local function login()
+  write("login as: ")
+  local user = read()
+  write(user .. "@" .. (os.getComputerLabel() or os.getComputerID()) .. "'s password: ")
+  local pass = sha256(read("*"))
+  local users = loadUsers()
+  if users[user] == pass then
+    shell.run("/rom/programs/shell")
+  else
+    print("Login failed")
+    sleep(2)
+  end
+end
+
+local function userExist(name)
+  local users = loadUsers()
+  return users[name] ~= nil
+end
+
+local function add()
+  if #a ~= 2 then
+    print("Usage: secure-nsh add <user>")
+    return
+  end
+  
+  local user = a[2]
+  local users = loadUsers()
+  if userExist(user) then
+    error("User " .. user .. " already exist")
+    return
+  end
+  
+  write(user.."'s password: ")
+  local pass = read("*")
+  if pass == nil or pass == "" then
+    print("Operation cancelled")
+    return
+  end
+  
+  pass = sha256(pass)
+  
+  local f = fs.open(path_pwd, "a")
+  f.writeLine(user..":"..pass)
+  f.close()
+  print("User created")
+end
+
+local function delete()
+  if #a ~= 2 then
+    print("Usage: secure-nsh delete <user>")
+    return
+  end
+  
+  if not userExist(a[2]) then
+    error("Unknown user "..a[2])
+    return
+  end
+  
+  local users = loadUsers()
+  local f = fs.open(path_pwd, "w")
+  for k,v in pairs(users) do
+    if k ~= a[2] then
+      f.writeLine(k..":"..v)
+    end
+  end
+  f.close()
+  print("User "..a[2].." deleted")
+end
+
+local function list()
+  local users = loadUsers()
+  print("Users:")
+  for k,v in pairs(users) do
+    print(" - " .. k)
+  end
+end
+
+local function change()
+  if #a ~= 2 then
+    print("Usage: secure-nsh change <user>")
+    return
+  end
+  
+  if not userExist(a[2]) then
+    error("Unknown user " .. a[2])
+    return
+  end
+  
+  write("New "..a[2].."'s password: ")
+  local pass = read("*")
+  if pass == nil or pass == "" then
+    print("Operation cancelled")
+    return
+  end
+  
+  local users = loadUsers()
+  users[a[2]] = sha256(pass)
+  
+  local f = fs.open(path_pwd, "w")
+  for k,v in pairs(users) do
+    f.writeLine(k..":"..v)
+  end
+  f.close()
+  print("Password changed!")
+end
+
+if #a < 1 or a[1] == "help" then
+  local cmd = "secure-nsh "
+  print("Usage:")
+  print(cmd.."login: Display the login form")
+  print(cmd.."add <user>: Create a user")
+  print(cmd.."change <user>: Change a pass")
+  print(cmd.."delete <user>: Delete a user")
+  print(cmd.."list: List all the users")
+else 
+  if a[1] == "login" then
+    login()
+  elseif a[1] == "add" then
+    add()
+  elseif a[1] == "delete" then
+    delete()
+  elseif a[1] == "list" then
+    list()
+  elseif a[1] == "change" then
+    change()
+  else
+    error("Unknown subcommand " .. a[1])
+  end
+end
