@@ -35,7 +35,7 @@ You need to modify the startup script to add nsh at startup.
 
 First, backup the script `cp /startup /startup.backup` then open the file by typing `edit /startup`
 
-Add this line [b]at the end[/b]: `shell.run("/usr/bin/nsh host /usr/bin/secure-nsh")` (https://i.imgur.com/89rUvis.png)
+Add this line **at the end**: `shell.run("/usr/bin/nsh host /usr/bin/secure-nsh")` (https://i.imgur.com/89rUvis.png)
 
 Then reboot the computer by typing `reboot` and nsh is installed
 
