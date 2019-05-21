@@ -21,16 +21,6 @@ You need to add a label to you computer: `label set <your_computer_name>`
 
 
 
-### Start nsh at startup
-
-You need to replace the startup script by another.
-
-First, backup the script `mv /startup /startup.backup` and run `pastebin get xbyCve2i /startup`
-
-Then reboot the computer by typing `reboot` and nsh is installed
-
-
-
 ### Install secure-nsh
 
 After installing nsh, you can install secure-nsh by typing `packman install secure-nsh`
@@ -39,13 +29,15 @@ It will ask you to confirm, type Y then enter
 
 
 
-### Tell nsh to use secure-nsh
+### Start nsh at startup
 
-You have to do it manually ! Open the nsh file `edit /usr/bin/nsh`
+You need to modify the startup script to add nsh at startup.
 
-Navigate to line 412 (https://i.imgur.com/WIZeoQX.png) 
+First, backup the script `cp /startup /startup.backup` then open the file by typing `edit /startup`
 
-Then replace `"/rom/programs/shell"` by `"/usr/bin/secure-nsh login"` (https://i.imgur.com/qqeApjr.png)
+Add this line [b]at the end[/b]: `shell.run("/usr/bin/nsh host /usr/bin/secure-nsh")` (https://i.imgur.com/89rUvis.png)
+
+Then reboot the computer by typing `reboot` and nsh is installed
 
 
 
