@@ -1,6 +1,6 @@
 # cc-packages
 
-## How to install
+## How to install secure-nsh
 
 ### packman
 
@@ -23,7 +23,7 @@ You need to add a label to you computer: `label set <your_computer_name>`
 
 ### Install secure-nsh
 
-After installing nsh, you can install secure-nsh by typing `packman install secure-nsh`
+After installing nsh, you can install secure-nsh by typing `packman install secure-nsh-login`
 
 It will ask you to confirm, type Y then enter
 
@@ -35,7 +35,7 @@ You need to modify the startup script to add nsh at startup.
 
 First, backup the script `cp /startup /startup.backup` then open the file by typing `edit /startup`
 
-Add this line **at the end**: `shell.run("/usr/bin/nsh host /usr/bin/secure-nsh")` (https://i.imgur.com/89rUvis.png)
+Add this line **at the end**: `shell.run("/usr/bin/nsh host /usr/bin/secure-nsh-login")`
 
 Then reboot the computer by typing `reboot` and nsh is installed
 
