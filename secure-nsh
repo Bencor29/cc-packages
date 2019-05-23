@@ -1,6 +1,5 @@
 local path_api = "/usr/apis/sha256"
 local path_pwd = "/etc/secure-nsh/passwd"
-
 local a = {...}
 
 if #a == 1 and a[1] == "install" then
@@ -35,17 +34,21 @@ local function loadUsers()
 end
 
 local function login()
+  local osEvent = os.pullEvent
+  os.pullEvent = os.pullEventRaw
   write("login as: ")
   local user = read()
   write(user .. "@" .. (os.getComputerLabel() or os.getComputerID()) .. "'s password: ")
   local pass = sha256(read("*"))
   local users = loadUsers()
   if users[user] == pass then
+    os.pullEvent = osEvent
     shell.run("/rom/programs/shell")
   else
     print("Login failed")
     sleep(2)
   end
+  os.pullEvent = osEvent
 end
 
 local function userExist(name)
