@@ -28,3 +28,4 @@ name = secure-nsh-login
 	dependencies = bencor29/secure-nsh
 	version = 1.0.0
 	size = 1
+end
