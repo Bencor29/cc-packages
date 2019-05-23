@@ -9,15 +9,6 @@ name = sha256
 	size = 1
 end
 
-name = secure-nsh-login
-	type = raw
-		url = https://raw.githubusercontent.com/Bencor29/cc-packages/master/secure-nsh-login
-		filename = secure-nsh-login
-	category = utility
-	dependencies = bencor29/secure-nsh
-	version = 1.0.0
-	size = 1
-
 name = secure-nsh
 	type = raw
 		url = https://raw.githubusercontent.com/Bencor29/cc-packages/master/secure-nsh
@@ -28,3 +19,12 @@ name = secure-nsh
 	version = 1.0.0
 	size = 1
 end
+
+name = secure-nsh-login
+	type = raw
+		url = https://raw.githubusercontent.com/Bencor29/cc-packages/master/secure-nsh-login
+		filename = secure-nsh-login
+	category = utility
+	dependencies = bencor29/secure-nsh
+	version = 1.0.0
+	size = 1
