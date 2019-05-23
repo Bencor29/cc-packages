@@ -16,7 +16,7 @@ name = secure-nsh
 	setup = secure-nsh install
 	category = security nsh rednet
 	dependencies = bencor29/sha256
-	version = 1.0.0
+	version = 1.0.1
 	size = 1
 end
 
